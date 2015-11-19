@@ -11,17 +11,21 @@ var bodyParser = require('body-parser');// pull information from HTML POST (expr
 var methodeOverride = require('method-override');// simulate DELETE and PUT (express4)
 var session = require('express-session'); // session
 
-
 var configDB = require('./config/database');
+
+
+// load up the user model
+var User = require('./app/models/user');
+
 
 // param
 var port = process.env.PORT || 8080;
-
+var secret = process.env.SESSION_SECRET || 'ilovenode'
 
 // configuration
 mongoose.connect(configDB.url); // connect to the database
 
-require('./config/passport')(passport); // pass passport configuration
+require('./config/passport')(passport, User); // pass passport configuration
 
 // set up express app
 app.use(express.static(__dirname + '/public'));
@@ -35,10 +39,11 @@ app.use(bodyParser.json());// parse application/json
 // app.use(bodyParser()); // get information from html forms
 
 app.set('view engine', 'ejs'); // set up ejs for templating
+app.set('superSecret', secret); // secret variable
 
 // require for passport
 app.use(session({
-    secret: process.env.SESSION_SECRET || '<mysecret>',
+    secret: secret,
     resave: true,
     saveUninitialized: true
 }));
@@ -51,9 +56,8 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 // override with the X-HTTP-Method-Override header in the request. simulate DELETE/PUT
 app.use(methodeOverride('X-HTTP-Method-Override')); 
 
-
 // load routes
-require('./app/routes')(app, passport);
+require('./app/routes')(app, passport, express, User);
 
 // listen (start app with node server.js)
 app.listen(port);

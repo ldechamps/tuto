@@ -1,8 +1,10 @@
 var Todo = require('./models/todo');
 var Nerd = require('./models/nerd');
+var jwt = require('jsonwebtoken');// used to create, sign, and verify tokens
 
+    
 // expose
-module.exports = function(app, passport) {
+module.exports = function(app, passport, express, User) {
         
         var options = {
             root: __dirname + '/../public/'/* ,
@@ -67,7 +69,7 @@ module.exports = function(app, passport) {
         // =====================================
         // LOGOUT ==============================
         // =====================================
-        app.get('/logout', function(req, res) {
+        app.get('/logout', isLoggedIn, function(req, res) {
             req.logout();
             res.redirect('/');
         });
@@ -76,7 +78,7 @@ module.exports = function(app, passport) {
         // API TODO SECTION =====================
         // =====================================
         // get all todos
-        app.get('/api/todos', function(req, res){
+        app.get('/api/todos', isLoggedIn, function(req, res){
 
             // use mongoose to get all todos in the database
             Todo.find(function(err, todos){
@@ -90,7 +92,7 @@ module.exports = function(app, passport) {
         })
 
         // create todo and send back all todos after creation
-        app.post('/api/todos', function(req, res){
+        app.post('/api/todos', isLoggedIn, function(req, res){
 
             // create a todo, information come from AJAX
             Todo.create({
@@ -110,7 +112,7 @@ module.exports = function(app, passport) {
         });
 
         // delete a todo
-        app.delete('/api/todos/:todo_id', function(req, res){
+        app.delete('/api/todos/:todo_id', isLoggedIn, function(req, res){
             Todo.remove({
                 _id : req.params.todo_id
             }, function(err, todo) {
@@ -135,7 +137,7 @@ module.exports = function(app, passport) {
         // API NERD SECTION =====================
         // =====================================    
         // sample api route
-        app.get('/api/nerds', function(req, res) {
+        app.get('/api/nerds', isLoggedIn, function(req, res) {
             // use mongoose to get all nerds in the database
             Nerd.find(function(err, next) {
                 
@@ -152,10 +154,64 @@ module.exports = function(app, passport) {
             res.sendFile('indexNerd.html', options);
         });
     
+    
+        // =====================================
+        // API USERS SECTION =====================
+        // =====================================   
+        var apiRoutes = express.Router();
+    
+        // sample api route
+    
+        apiRoutes.post('/authenticate', function(req, res) {
+            
+            // find the user
+            User.findOne({
+                name: req.body.name
+            }, function(err, user) {
+                if(err) throw err;
+                if(!user) {
+                    res.json({ success:false, message: 'Authentication failed. User not found.'});
+                } else {
+                    // if user is found and password is right
+                    // create a token
+                    var token = jwt.sign(user, app.get('superSecret'), {
+                      expiresInMinutes: 1440 // expires in 24 hours
+                    });
+
+                    // return the information including token as JSON
+                    res.json({
+                      success: true,
+                      message: 'Enjoy your token!',
+                      token: token
+                    });
+                    
+                }
+            });
+            
+        });
+
+        // route middleware to verify a token
+        apiRoutes.use(isTokenValidfunction);
+        
+        apiRoutes.get('/', function(req, res) {
+            res.json({ message: 'Welcome to the coolest API on earth!'});
+        });
+    
+        apiRoutes.get('/users', function(req, res) {
+            User.find({}, function(err, users) {
+                res.json(users);
+            });
+        });
+    
+
+        
+        app.use('/api', apiRoutes);
+        
+    
         // =====================================
         // SCRAPE SECTION =====================
         // =====================================  
-        app.get('/scrape', function(req, res) {
+        app.get('/scrape', isLoggedIn, function(req, res) {
             
           require('./tools/scrape')();
               
@@ -169,16 +225,53 @@ module.exports = function(app, passport) {
         app.get('*', isLoggedIn, function(req, res) {
             res.sendFile('404.html', options);
         });
+    
+        // route middleware to make sure a user is logged in
+        function isLoggedIn(req, res, next) {
+            console.log('is logged in '+req.isAuthenticated());
+
+            // if user is authenticated in the session, carry on 
+            if (req.isAuthenticated())
+                return next();
+
+            // if they aren't redirect them to the home page
+            res.redirect('/');
+        }
+
+        
+        // =====================================
+        // UTILE FUNCTION =====================
+        // =====================================  
+        function isTokenValidfunction(req, res, next) {
+
+          // check header or url parameters or post parameters for token
+          var token = req.body.token || req.query.token || req.headers['x-access-token'];
+
+          // decode token
+          if (token) {
+
+            // verifies secret and checks exp
+            jwt.verify(token, app.get('superSecret'), function(err, decoded) {      
+              if (err) {
+                return res.json({ success: false, message: 'Failed to authenticate token.' });    
+              } else {
+                // if everything is good, save to request for use in other routes
+                req.decoded = decoded;    
+                next();
+              }
+            });
+
+          } else {
+
+            // if there is no token
+            // return an error
+            return res.status(403).send({ 
+                success: false, 
+                message: 'No token provided.' 
+            });
+
+          }
+        }
 };
 
-// route middleware to make sure a user is logged in
-function isLoggedIn(req, res, next) {
-    console.log('is logged in '+req.isAuthenticated());
-    
-    // if user is authenticated in the session, carry on 
-    if (req.isAuthenticated())
-        return next();
 
-    // if they aren't redirect them to the home page
-    res.redirect('/');
-}
