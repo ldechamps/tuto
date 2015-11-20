@@ -23,8 +23,11 @@ var port = process.env.PORT || 8080;
 var secret = process.env.SESSION_SECRET || 'ilovenode'
 
 // configuration
-mongoose.connect(configDB.url); // connect to the database
-
+if(process.argv[2]=="-l"){
+    mongoose.connect(configDB.url_local); // connect to the database
+} else {
+     mongoose.connect(configDB.url); // connect to the database
+}
 require('./config/passport')(passport, User); // pass passport configuration
 
 // set up express app
