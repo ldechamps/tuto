@@ -59,6 +59,7 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 // override with the X-HTTP-Method-Override header in the request. simulate DELETE/PUT
 app.use(methodeOverride('X-HTTP-Method-Override')); 
 
+
 // load routes
 require('./app/routes')(app, passport, express, User);
 
