@@ -61,8 +61,13 @@ module.exports = function(app, passport, express, User) {
         // we will want this protected so you have to be logged in to visit
         // we will use route middleware to verify this (the isLoggedIn function)
         app.get('/profile', isLoggedIn, function(req, res) {
-        res.render('profile.ejs', {
-            user : req.user // get the user out of session and pass to template
+            var message = "";
+            var users = User.find({}, function(err, users) {
+                res.render('profile.ejs', {
+                    user : req.user, // get the user out of session and pass to template
+                    users : users,
+                    message : message
+                });
             });
         });
 
@@ -206,6 +211,83 @@ module.exports = function(app, passport, express, User) {
 
         
         app.use('/api', apiRoutes);
+    
+         // =====================================
+        // APP USERS SECTION =====================
+        // =====================================   
+        var appRoutes = express.Router();
+    
+
+        // route middleware to verify a token
+        appRoutes.use(isLoggedInApp);
+        
+
+       appRoutes.get('/users', function(req, res){
+
+            // use mongoose to get all users in the database
+            User.find(function(err, users){
+
+                // if there is an error retrieving, send the error.
+                if(err)
+                    res.send(err);
+
+                res.json(users); // return Users in JSON Format
+            })
+        })
+
+        // create user and send back all todos after creation
+        appRoutes.post('/users', function(req, res){
+            
+                    // asynchronous
+            // User.findOne wont fire unless data is sent back
+            process.nextTick(function() {
+
+                // find a user whose name is the same as the forms name
+                // we are checking to see if the user trying to login already exists
+                User.findOne({'name' : req.body.name }, function(err, user) {
+                    // if there are any errors, return the error
+                    if (err)
+                        return done(err);
+
+                    // check to see if theres already a user with that name
+                    if (user) {
+                        return req.flash('signupMessage', 'That name is already taken.');
+                    } else {
+                       User.create(req.body.name, req.body.password, false, function(){
+                             // use mongoose to get all todos in the database
+                                User.find(function(err, users){
+                                    if(err)
+                                        res.send(err);
+                                   return res.json(users); // return Todos in JSON Format
+                                });
+                           
+                        });
+                    }
+                });
+            });
+
+        });
+
+        // delete a user
+        appRoutes.delete('/users/:user_id', function(req, res){
+            console.log("delete REQUEST "+req.params.user_id)
+            User.remove({
+                _id : req.params.user_id
+            }, function(err, user) {
+                if (err)
+                    res.send(err);
+
+                // get and return all the users
+                User.find(function(err, users){
+                    if(err)
+                        res.send(err);
+                    
+                   return res.json(users); // return Users in JSON Format
+                });
+            });
+        });
+        
+        app.use('/app', appRoutes);
         
     
         // =====================================
@@ -226,7 +308,7 @@ module.exports = function(app, passport, express, User) {
             res.sendFile('404.html', options);
         });
     
-        // route middleware to make sure a user is logged in
+        // route middleware to make sure a user is logged in (for app)
         function isLoggedIn(req, res, next) {
             console.log('is logged in '+req.isAuthenticated());
 
@@ -237,6 +319,18 @@ module.exports = function(app, passport, express, User) {
             // if they aren't redirect them to the home page
             res.redirect('/');
         }
+    
+        // route middleware to make sure a user is logged in (for rest)
+        function isLoggedInApp(req, res, next) {
+            console.log('is logged in '+req.isAuthenticated());
+
+            // if user is authenticated in the session, carry on 
+            if (req.isAuthenticated())
+                return next();
+            
+            return res.json({ success: false, message: 'Not authenticated.' })
+        }
+
 
         
         // =====================================

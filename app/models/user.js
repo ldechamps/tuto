@@ -30,21 +30,21 @@ userSchema.statics.init = function(){
    this.count({}, function(err, count) {
        if (err)
            throw err;
-        console.log("init "+count);
         if(count === 0) {
-         User.create("admin", "admin", function(){});
+         User.create("admin", "admin", true, function(){});
         }
    });
 }
 
-userSchema.statics.create = function(email, password, done){
+userSchema.statics.create = function(name, password, admin, done){
       // if there is no user with that email
         // create the user
         var newUser = new this();
 
         // set the user's local credentials
-        newUser.email = email;
+        newUser.name = name;
         newUser.password = newUser.generateHash(password);
+        newUser.admin = admin;
 
         // save the user
         newUser.save(function(err) {
