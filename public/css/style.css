@@ -1,4 +1,17 @@
+<<<<<<< HEAD
 
 html                    { overflow-y:scroll; }
 body                    { padding-top:50px; }
 #todo-list              { margin-bottom:30px; }
+=======
+
+html                    { overflow-y:scroll}
+body                    { padding-top:50px; }
+#todo-list              { margin-bottom:30px; }
+.btn-margin-left        { margin-left:5px; }
+
+
+.modal-open, .modal-open .navbar-fixed-top {
+margin-right: auto !important;
+}
+>>>>>>> heroku/master
