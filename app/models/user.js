@@ -34,7 +34,7 @@ userSchema.statics.init = function(){
        if (err)
            throw err;
         if(count === 0) {
-         User.create("admin", "admin", true, function(){});
+         User.create("admin", "ghsghs", true, function(){});
         }
    });
 }
