@@ -20,7 +20,7 @@ var User = require('./app/models/user');
 
 // param
 var port = process.env.PORT || 8080;
-var secret = process.env.SESSION_SECRET || 'ilovenode'
+var secret = process.env.SESSION_SECRET || 'ilovenodewithghs'
 
 // configuration
 if(process.argv[2]=="-l"){

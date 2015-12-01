@@ -37,13 +37,13 @@ userSchema.statics.init = function(){
    });
 }
 
-userSchema.statics.create = function(email, password, done){
+userSchema.statics.create = function(name, password, done){
       // if there is no user with that email
         // create the user
         var newUser = new this();
 
         // set the user's local credentials
-        newUser.email = email;
+        newUser.name = name;
         newUser.password = newUser.generateHash(password);
 
         // save the user
