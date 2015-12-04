@@ -13,10 +13,11 @@ var session = require('express-session'); // session
 
 var configDB = require('./config/database');
 
-
 // load up the user model
 var User = require('./app/models/user');
 
+// surcharge des responses
+require('./app/tools/response');
 
 // param
 var port = process.env.PORT || 8080;
@@ -64,5 +65,11 @@ app.use(methodeOverride('X-HTTP-Method-Override'));
 require('./app/routes')(app, passport, express, User);
 
 // listen (start app with node server.js)
-app.listen(port);
-console.log("App listening on port %d", port);
+if (module.parent === null) {
+  app.listen(port);
+  console.log("App listening on port %d", port);
+}
+
+
+// http://cwbuecheler.com/web/tutorials/2014/restful-web-app-node-express-mongodb/
+

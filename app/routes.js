@@ -221,17 +221,32 @@ module.exports = function(app, passport, express, User) {
         // route middleware to verify a token
         appRoutes.use(isLoggedInApp);
         
-
+    // //http://www.javacodegeeks.com/2014/03/single-page-application-with-angular-js-node-js-and-mongodb-mongojs-module.html
+// http://blog.modulus.io/nodejs-and-express-create-rest-api
+    // http://blog.xebia.fr/2014/12/12/gerer-les-erreurs-avec-node-js/
+    // http://webapplog.com/tutorial-node-js-and-mongodb-json-rest-api-server-with-mongoskin-and-express-js/
+    // regarder dans sail ou mean, pour recuperer les codes erreurs, voir code erreur pour pas d'utilisateur trouvé
        appRoutes.get('/users', function(req, res){
-
+           var id = req.user._id;
+           
             // use mongoose to get all users in the database
-            User.find(function(err, users){
-
+            User.find({'_id':{'$ne':id}}, function(err, users){
+    
                 // if there is an error retrieving, send the error.
                 if(err)
                     res.send(err);
 
                 res.json(users); // return Users in JSON Format
+                 // voir pour pas tout envoyer de l'utilisateur soit dans users soit en mettant le code suivant
+                //res.writeHead(200, {'Content-Type': 'application/json'}); // Sending data via json
+                 //  str='[';
+                 //  users.forEach( function(user) {
+                 //      str = str + '{ "name" : "' + user.username + '"},' +'\n';
+                 //  });
+                 //  str = str.trim();
+                 //  str = str.substring(0,str.length-1);
+                 //  str = str + ']';
+                 //  res.end( str);
             })
         })
 
@@ -239,15 +254,12 @@ module.exports = function(app, passport, express, User) {
         appRoutes.post('/users', function(req, res){
             
                     // asynchronous
-            // User.findOne wont fire unless data is sent back
-            process.nextTick(function() {
-
                 // find a user whose name is the same as the forms name
                 // we are checking to see if the user trying to login already exists
                 User.findOne({'name' : req.body.name }, function(err, user) {
                     // if there are any errors, return the error
                     if (err)
-                        return done(err);
+                        res.send(err);
 
                     // check to see if theres already a user with that name
                     if (user) {
@@ -264,13 +276,14 @@ module.exports = function(app, passport, express, User) {
                         });
                     }
                 });
-            });
+          
 
         });
 
         // delete a user
         appRoutes.delete('/users/:user_id', function(req, res){
             console.log("delete REQUEST "+req.params.user_id)
+            // on ne peut pas supprimer un admin sauf superadmin !
             User.remove({
                 _id : req.params.user_id
             }, function(err, user) {
