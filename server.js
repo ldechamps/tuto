@@ -17,7 +17,7 @@ var configDB = require('./config/database');
 var User = require('./app/models/user');
 
 // surcharge des responses
-require('./app/tools/response');
+require('./app/responses/response');
 
 // param
 var port = process.env.PORT || 8080;
