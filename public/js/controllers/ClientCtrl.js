@@ -1,6 +1,6 @@
 angular.module('clientController', [])
 
-    .controller('mainController', function($scope, $http, Clients) {
+    .controller('clientController', function($scope, $http, Clients) {
         $scope.formData = {};
     
         Clients.get()

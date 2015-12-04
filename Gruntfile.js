@@ -16,11 +16,11 @@ module.exports = function(grunt) {
         // for stylesheets, watch css and less files 
         // only run less and cssmin 
         stylesheets: { 
-          files: ['src/*/*.css', 'src/*/*.less'], 
+          files: ['grunt/src/*/*.css', 'src/*/*.less'], 
           tasks: ['less:dev', 'cssmin:dev']
         },
         scripts: { 
-            files: ['src/*/*.js'],
+            files: ['grunt/src/*/*.js'],
             tasks: ['jshint:dev', 'uglify:dev'] 
         }
     },
@@ -33,9 +33,9 @@ module.exports = function(grunt) {
           },
 
           // when this task is run, lint the Gruntfile and all js files in src
-          build: ['Gruntfile.js', 'src/**/*.js'],
-          dev: ['Gruntfile.js', 'src/**/*.js'],
-          production: ['Gruntfile.js', 'src/**/*.js']
+          build: ['Gruntfile.js', 'grunt/src/**/*.js'],
+          dev: ['Gruntfile.js', 'grunt/src/**/*.js'],
+          production: ['Gruntfile.js', 'grunt/src/**/*.js']
     },
       
 
@@ -47,14 +47,14 @@ module.exports = function(grunt) {
           build: {
             files: {
              // 'dist/js/magic.min.js': ['src/js/magic.js','src/js/magic2.js' ]
-                'public/js/magic.min.js': 'src/**/*.js'
+                'public/js/magic.min.js': 'grunt/src/**/*.js'
             }
           },
           dev: { 
-            files: { 'dist/js/magic.min.js': ['src/js/magic.js', 'src/js/magic2.js'] } 
+            files: { 'grunt/dist/js/magic.min.js': ['grunt/src/js/magic.js', 'grunt/src/js/magic2.js'] } 
             }, 
           production: { 
-            files: { 'dist/js/magic.min.js': 'src/**/*.js' } 
+            files: { 'grunt/dist/js/magic.min.js': 'grunt/src/**/*.js' } 
           } 
       },
       
@@ -63,17 +63,17 @@ module.exports = function(grunt) {
     less: {
       build: {
         files: {
-          'dist/css/pretty.css': 'src/css/pretty.less'
+          'grunt/dist/css/pretty.css': 'grunt/src/css/pretty.less'
         }
       },
        dev: {
         files: {
-          'dist/css/pretty.css': 'src/css/pretty.less'
+          'grunt/dist/css/pretty.css': 'grunt/src/css/pretty.less'
         }
       },
       production: {
         files: {
-          'dist/css/pretty.css': 'src/css/pretty.less'
+          'grunt/dist/css/pretty.css': 'grunt/src/css/pretty.less'
         }
       },
     },
@@ -85,17 +85,17 @@ module.exports = function(grunt) {
       },
       build: {
         files: {
-          'dist/css/style.min.css': 'src/css/style.css'
+          'grunt/dist/css/style.min.css': 'grunt/src/css/style.css'
         }
       },
       dev: {
         files: {
-          'dist/css/style.min.css': 'src/css/style.css'
+          'grunt/dist/css/style.min.css': 'grunt/src/css/style.css'
         }
       },
       production: {
         files: {
-          'dist/css/style.min.css': 'src/css/style.css'
+          'grunt/dist/css/style.min.css': 'grunt/src/css/style.css'
         }
       }
     }

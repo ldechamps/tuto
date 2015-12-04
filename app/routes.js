@@ -1,5 +1,3 @@
-var Todo = require('./models/todo');
-var Nerd = require('./models/nerd');
 var jwt = require('jsonwebtoken');// used to create, sign, and verify tokens
 
     
@@ -79,87 +77,7 @@ module.exports = function(app, passport, express, User) {
             res.redirect('/');
         });
     
-        // =====================================
-        // API TODO SECTION =====================
-        // =====================================
-        // get all todos
-        app.get('/api/todos', isLoggedIn, function(req, res){
-
-            // use mongoose to get all todos in the database
-            Todo.find(function(err, todos){
-
-                // if there is an error retrieving, send the error.
-                if(err)
-                    res.send(err);
-
-                res.json(todos); // return Todos in JSON Format
-            })
-        })
-
-        // create todo and send back all todos after creation
-        app.post('/api/todos', isLoggedIn, function(req, res){
-
-            // create a todo, information come from AJAX
-            Todo.create({
-                text : req.body.text,
-                done : false
-            }, function(err, todo) {
-                if(err)
-                    res.send(err);
-
-                // use mongoose to get all todos in the database
-                Todo.find(function(err, todos){
-                    if(err)
-                        res.send(err);
-                    res.json(todos); // return Todos in JSON Format
-                });
-            });
-        });
-
-        // delete a todo
-        app.delete('/api/todos/:todo_id', isLoggedIn, function(req, res){
-            Todo.remove({
-                _id : req.params.todo_id
-            }, function(err, todo) {
-                if (err)
-                    res.send(err);
-
-                // get and return all the todos
-                Todo.find(function(err, todos){
-                    if(err)
-                        res.send(err);
-                    res.json(todos); // return Todos in JSON Format
-                });
-            });
-        });
-  
-        //application
-        app.get('/todo/*', isLoggedIn, function(req, res) {
-            res.sendFile('indexTodo.html', options);
-        });
-    
-        // =====================================
-        // API NERD SECTION =====================
-        // =====================================    
-        // sample api route
-        app.get('/api/nerds', isLoggedIn, function(req, res) {
-            // use mongoose to get all nerds in the database
-            Nerd.find(function(err, next) {
-                
-                if(err)
-                    res.send(err);
-                
-                res.json(nerds);
-                
-            })
-        })
-        
-        //application
-        app.get('/nerd/*', isLoggedIn, function(req, res) {
-            res.sendFile('indexNerd.html', options);
-        });
-    
-    
+   
         // =====================================
         // API USERS SECTION =====================
         // =====================================   
