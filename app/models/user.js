@@ -30,7 +30,7 @@ userSchema.methods.validPassword = function(password) {
 userSchema.statics.init = function(){
     var User = this;
     
-   this.count({}, function(err, count) {
+   User.count({}, function(err, count) {
        if (err)
            throw err;
         if(count === 0) {
@@ -55,6 +55,34 @@ userSchema.statics.create = function(name, password, admin, done){
                 throw err;
             return done(null, newUser);
         });
+}
+
+userSchema.statics.findExcept = function(id, done){
+            var User = this;
+    
+                // use mongoose to get all users in the database
+               User.find({'_id':{'$ne':id}}, function(err, users){
+    
+                // if there is an error retrieving, send the error.
+                if(err)
+                    throw err;
+                
+               return done(null, users)
+              // return users; // pas correct à corriger
+
+               // res.json(users); // return Users in JSON Format
+                 // voir pour pas tout envoyer de l'utilisateur soit dans users soit en mettant le code suivant
+                //res.writeHead(200, {'Content-Type': 'application/json'}); // Sending data via json
+                 //  str='[';
+                 //  users.forEach( function(user) {
+                 //      str = str + '{ "name" : "' + user.username + '"},' +'\n';
+                 //  });
+                 //  str = str.trim();
+                 //  str = str.substring(0,str.length-1);
+                 //  str = str + ']';
+                 //  res.end( str);
+            });
+    
 }
 
 // create the model for users and expose it to our app

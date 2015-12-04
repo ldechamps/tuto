@@ -62,7 +62,7 @@ app.use(methodeOverride('X-HTTP-Method-Override'));
 
 
 // load routes
-require('./app/routes')(app, passport, express, User);
+require('./app/routes/')(app, passport, express, User);
 
 // listen (start app with node server.js)
 if (module.parent === null) {
