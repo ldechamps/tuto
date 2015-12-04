@@ -18,7 +18,7 @@ module.exports = function(express, User) {
     // http://webapplog.com/tutorial-node-js-and-mongodb-json-rest-api-server-with-mongoskin-and-express-js/
     // regarder dans sail ou mean, pour recuperer les codes erreurs, voir code erreur pour pas d'utilisateur trouvé
        appRoutes.get('/users', function(req, res){
-           User.findExcept(req.user._id, function(status, users){
+           User.findExcept(req.user, function(status, users){
                return res.json(users);
            });
         })

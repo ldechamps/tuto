@@ -57,11 +57,18 @@ userSchema.statics.create = function(name, password, admin, done){
         });
 }
 
-userSchema.statics.findExcept = function(id, done){
+userSchema.statics.findExcept = function(user, done){
             var User = this;
     
+            var req = {'_id':{'$ne':user._id}};
+    
+            if(user.admin === false){ // if not admin we can't load admin users
+                req.admin = 'false';
+                console.log('not admin' + req);
+            }
+    
                 // use mongoose to get all users in the database
-               User.find({'_id':{'$ne':id}}, function(err, users){
+               User.find(req, function(err, users){
     
                 // if there is an error retrieving, send the error.
                 if(err)
