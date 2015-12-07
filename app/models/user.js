@@ -61,6 +61,7 @@ userSchema.statics.findExcept = function(user, done){
             var User = this;
     
             var req = {'_id':{'$ne':user._id}};
+           
     
             if(user.admin === false){ // if not admin we can't load admin users
                 req.admin = 'false';
@@ -74,7 +75,7 @@ userSchema.statics.findExcept = function(user, done){
                 if(err)
                     throw err;
                 
-               return done(null, users)
+               return done(null, users);
               // return users; // pas correct à corriger
 
                // res.json(users); // return Users in JSON Format

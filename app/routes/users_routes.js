@@ -39,7 +39,7 @@ module.exports = function(express, User) {
                         return req.flash('signupMessage', 'That name is already taken.');
                     } else {
                        User.create(req.body.name, req.body.password, false, function(){
-                                  User.findExcept(req.user._id, function(status, users){
+                                  User.findExcept(req.user, function(status, users){
                                return res.json(users);
                            });
                         });
@@ -59,7 +59,8 @@ module.exports = function(express, User) {
                 if (err)
                     res.send(err);
                 
-                   User.findExcept(req.user._id, function(status, users){
+                   User.findExcept(req.user, function(status, users){
+                       console.log("delete.find");
                        return res.json(users);
                    });
             });
