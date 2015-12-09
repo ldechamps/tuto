@@ -91,20 +91,36 @@
         <div class="row-fluid">
           <div class="navbar">
               <ul class="nav nav-pills navbar-left">
-                  <li class="active">
-                     <a href="/profile"><span class="fa fa-user"></span> Users</a>
+                  <li>
+                     <form action="/profile">
+                        <button type="button" class="navbar-btn btn btn-default active">
+                            <span class="fa fa-user"></span> Users
+                         </button>
+                     </form>
                  </li>
                  <li> 
-                     <a href="/profile"><span class="fa fa-home"></span> Clients</a>
+                     <form action="/profile">
+                        <button type="button" class="navbar-btn btn btn-default disabled">
+                            <span class="fa fa-home"></span> Clients
+                         </button>
+                     </form>
                  </li>
                  <li>
-                     <a href="/profile"><span class="fa fa-send"></span> Campain</a>
+                     <form action="/profile">
+                        <button type="button" class="navbar-btn btn btn-default disabled">
+                            <span class="fa fa-send"></span> Campain
+                         </button>
+                     </form>
                  </li>
              </ul>
               <ul class="nav nav-pills navbar-right">
                   <li>
-                      <a href="/profile"><span class="fa fa-plus"></span></a>
-                           <!-- <button data-toggle="modal" data-target="#myModal">+</button>-->
+                    <form>
+                        <button type="button" data-toggle="modal" data-target="#myModal" class="navbar-btn btn btn-default">
+                            <span class="fa fa-plus"></span>
+                        </button>
+                     </form>
+                         
                    </li>
              </ul>          
                       
