@@ -6,6 +6,10 @@
     <link rel="stylesheet" href="libs/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="libs/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/style.css">
+        
+     <!-- SPELLS -->
+    <script src="libs/jquery/dist/jquery.min.js"></script>
+    <script src="libs/bootstrap/dist/js/bootstrap.min.js"></script>
     </head>
     <body>
         <div class="container">
@@ -16,9 +20,11 @@
 
                 <!-- show any messages that come back with authentication -->
                 <% if (message.length > 0) { %>
-                    <div class="alert alert-danger"><%= message %></div>
-                <% } %>
-
+                    <div class="alert alert-warning fade in" style="width: 100%;position: fixed; top:0; left:0">
+                        <a href="#" class="close" data-dismiss="alert">&times;</a>
+                        <strong>Warning!</strong> <%= message %>
+                    </div>
+                 <% } %>
                 <!-- LOGIN FORM -->
                 <form action="/login" method="post">
                     <div class="form-group">
