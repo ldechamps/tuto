@@ -4,13 +4,10 @@ angular.module('campainService', [])
     .factory('Campains', function($http) {
         return {
             get : function() {
-                return $http.get('/api/campains');
+                return $http.get('/app/campains'); // voir pour des regroupements et ensuite un lien pour lire
             },
-            create : function(todoData) {
-                return $http.post('/api/campains', todoData);
-            },
-            delete : function(id) {
-                return $http.delete('/api/campains/' + id);
+            delete : function(id)  // uniquement en admin pour faire du nettoyage suite à des bugs
+                return $http.delete('/app/campains/' + id);
             }
         }
 });

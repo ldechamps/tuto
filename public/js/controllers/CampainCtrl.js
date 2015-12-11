@@ -17,11 +17,4 @@ angular.module('campainController', [])
                 });
             };
         };
-
-        $scope.deleteCampain = function(id) {
-           Campains.delete(id)
-                .success(function(data) {
-                    $scope.campains = data;
-                });
-        };
     });
