@@ -1,6 +1,6 @@
-angular.module('userController', [])
+angular.module('UserController', [])
 
-    .controller('userController', function($scope, $http, Users) {
+    .controller('UserController', function($scope, $http, Users) {
         $scope.formData = {};
         console.log("controler");
     

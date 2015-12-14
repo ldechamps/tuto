@@ -1,4 +1,4 @@
-angular.module('userService', [])
+angular.module('UserService', [])
 
     // each function returns a promise object
     .factory('Users', function($http) {

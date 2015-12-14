@@ -1,6 +1,6 @@
-angular.module('campainController', [])
+angular.module('CampainController', [])
 
-    .controller('campainController', function($scope, $http, Campains) {
+    .controller('CampainController', function($scope, $http, Campains) {
         $scope.formData = {};
     
         Campains.get()

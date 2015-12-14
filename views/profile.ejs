@@ -1,6 +1,6 @@
 
 <!doctype html>
-<html ng-app="ghsUser">
+<html ng-app="sampleApp">
 <head>
     <title>GHS Authentication</title>
     
@@ -18,17 +18,24 @@
     <script src="libs/angular/angular.min.js"></script>
     <script src="libs/angular-route/angular-route.min.js"></script>
 
+    <script src="js/controllers/CampainCtrl.js"></script>
+    <script src="js/services/CampainService.js"></script>
+    
     <script src="js/controllers/UserCtrl.js"></script>
     <script src="js/services/UserService.js"></script>
-    <script src="js/app_user.js"></script>
     
-    <script src="js/controllers/clientCtrl.js"></script>
+    <script src="js/controllers/ClientCtrl.js"></script>
     <script src="js/services/ClientService.js"></script>
-    <script src="js/app_client.js"></script>
-</head>
-<body><!--  ng-controller="userController" -->
     
-    <div class="container">
+    <script src="js/controllers/MainCtrl.js"></script>
+    <script src="js/directives/ClickLink.js"></script>
+    
+    <script src="js/app_routes.js"></script>
+    <script src="js/app.js"></script>
+</head>
+ <body> <!--  ng-controller="UserController">--><!--  ng-controller="userController" -->
+    
+    <div class="container"  ng-controller="MainController">
         
         <div class="page-header text-center">
             <h1><span class="fa fa-anchor"></span> Profile Page</h1>
@@ -59,26 +66,23 @@
               <ul class="nav nav-pills navbar-left">
                   <!-- ng-repeat -->
                   <li>
-                     <form action="/profile">
-                        <button type="button" class="navbar-btn btn btn-default active">
+                        <button type="button" class="navbar-btn btn btn-default active" ng-click="go('/user')">
+                            <!-- be carefull right don't work with ng-cick -->
                             <span class="fa fa-user"></span> Users
                          </button>
-                     </form>
                  </li>
                   
                  <li> 
-                     <form action="/profile">
-                        <button type="button" class="navbar-btn btn btn-default disabled">
-                            <span class="fa fa-home"></span> Clients
-                         </button>
-                     </form>
+                     
+                    <button type="button" class="navbar-btn btn btn-default" ng-click="go('/client')">
+                        <span class="fa fa-home"></span> Clients
+                     </button>
+                
                  </li>
                  <li>
-                     <form action="/profile">
-                        <button type="button" class="navbar-btn btn btn-default disabled">
-                            <span class="fa fa-send"></span> Campain
-                         </button>
-                     </form>
+                    <button type="button" class="navbar-btn btn btn-default"  ng-click="go('/campain')">> <!-- disabled -->
+                        <span class="fa fa-send"></span> Campain
+                     </button>
                  </li>
              </ul>
               <ul class="nav nav-pills navbar-right">
@@ -97,79 +101,9 @@
         
         
         
-        
-        
-        
-        <!-- dans une route -->
-        
-        
-    <div  ng-controller="userController">
-        <!-- Modal -->
-      <div class="modal fade" id="myModal" role="dialog" style="overflow-y: hidden;">
-        <div class="modal-dialog">
-
-          <!-- Modal content-->
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title"><span class="fa fa-sign-in"></span> Signup</h4>
-            </div>
-              
-               <!-- LOGIN FORM -->
-            <form  method="post">   
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label>Name</label>
-                        <input type="text" class="form-control" name="name" ng-model="formData.name">
-                    </div>
-                    <div class="form-group">
-                        <label>E-mail</label>
-                        <input type="email" class="form-control" name="email" ng-model="formData.email">
-                    </div>
-                    <div class="form-group">
-                        <label>Password</label>
-                        <input type="password" class="form-control" name="password" ng-model="formData.password">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-warning btn-lg"  ng-click="createUser()" >Save</button>
-                </div>   
-            </form>
- 
-            </div>
-          </div>
-
-        </div>
-        
-        
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>id</th>
-            <th>name</th>
-            <th>email</th>
-            <th>admin</th>           
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-              <tr ng-repeat="user in users">
-                    <td>{{ user._id }}</td>
-                    <td>{{ user.name }}</td> 
-                <td>{{ user.email }}</td>
-                    <td>{{ user.admin }}</td>               
-                    <td align="center"><button class="fa fa-trash" ng-click="deleteUser(user._id)"></button></td>
-              </tr>
-        </tbody>
-      </table>
-    </div>
-        
-        
-        
-        
-        
-        
-        
+        <!-- ANGULAR DYNAMIC CONTENT -->
+	   <div ng-view></div>
+          
         
   </div>
 </body>

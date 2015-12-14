@@ -17,8 +17,17 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
         .when('/campain', {
             templateUrl: 'views/campain.html',
             controller: 'CampainController'
+        })
+        .otherwise({
+            templateUrl: 'views/user.html', 
+            controller: 'UserController'
         });
 
-    $locationProvider.html5Mode(true);
+        // mauvais car surcharge les href
+ //   $locationProvider.html5Mode({
+   //   enabled: true,
+     // requireBase: false
+    //});
 
+  
 }]);
