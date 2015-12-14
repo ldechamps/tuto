@@ -5,6 +5,7 @@ body                    { padding-top:50px; }
 
 
 .modal-open, .modal-open .navbar-fixed-top {
-margin-right: auto !important;
+    margin-right: auto !important;
+    padding-right: 0px;
 }
 
