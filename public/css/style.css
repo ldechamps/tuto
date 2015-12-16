@@ -8,3 +8,12 @@ body                    { padding-top:50px; padding-right: 0 !important;}
     margin-right: auto !important;
 }
 
+.table-hover > tbody > tr:hover > td,
+.table-hover > tbody > tr:hover > th {
+    background-color: #dddddd;
+    color: #ffffff;
+}
+
+.clickable {
+    cursor: pointer;
+}

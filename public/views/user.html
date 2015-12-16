@@ -41,7 +41,7 @@
     </div>
 
 
-  <table class="table table-striped" style="width:100%">
+  <table class="table table-striped table-hover" style="width:100%">
     <thead>
       <tr>
         <th style="width:30%">id</th>
@@ -52,12 +52,12 @@
       </tr>
     </thead>
     <tbody>
-          <tr ng-repeat="user in users">
+          <tr ng-repeat="user in users" class="clickable" ng-click="updateUser(user)">
                 <td>{{ user._id }}</td>
                 <td>{{ user.name }}</td> 
             <td>{{ user.email }}</td>
                 <td>{{ user.admin }}</td>               
-                <td align="center"><button class="fa fa-trash" ng-click="deleteUser(user._id)"></button></td>
+                <td align="center"><button class="fa fa-trash" ng-click="deleteUser(user)"></button></td>
           </tr>
     </tbody>
   </table>

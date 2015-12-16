@@ -1,9 +1,13 @@
+// scope global, routeur sauvegarder un scope
+
 angular.module('UserController', [])
 
     .controller('UserController', function($scope, $http, Users) {
         $scope.formData = {};
         console.log("controler");
     
+        //$scope.users undefined @ the controller's start
+
         Users.get()
             .success(function(data) {
                 $scope.users = data;
@@ -23,10 +27,18 @@ angular.module('UserController', [])
             };
         };
 
-        $scope.deleteUser = function(id) {
-           Users.delete(id)
+        $scope.deleteUser = function(user) {
+            
+            // faire un stop propagation ??
+            
+           Users.delete(user._id)
                 .success(function(data) {
                     $scope.users = data;
                 });
         };
+    
+        $scope.updateUser = function(user) {
+                $scope.formData = user;
+                $('#myModal').modal('show');
+        }
     });

@@ -5,4 +5,8 @@ angular.module('MainController', [])
             $location.path( path );
         }
         
+        $scope.menu = 'users';
+    
+        
+        
     })
