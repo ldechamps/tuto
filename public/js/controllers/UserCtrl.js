@@ -27,9 +27,10 @@ angular.module('UserController', [])
             };
         };
 
-        $scope.deleteUser = function(user) {
+        $scope.deleteUser = function(user, event) {
             
             // faire un stop propagation ??
+            event.stopPropagation();
             
            Users.delete(user._id)
                 .success(function(data) {
@@ -41,4 +42,6 @@ angular.module('UserController', [])
                 $scope.formData = user;
                 $('#myModal').modal('show');
         }
+        
+        
     });

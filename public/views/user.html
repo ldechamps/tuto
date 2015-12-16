@@ -57,7 +57,7 @@
                 <td>{{ user.name }}</td> 
             <td>{{ user.email }}</td>
                 <td>{{ user.admin }}</td>               
-                <td align="center"><button class="fa fa-trash" ng-click="deleteUser(user)"></button></td>
+                <td align="center"><button class="fa fa-trash" ng-click="deleteUser(user, $event)"></button></td>
           </tr>
     </tbody>
   </table>
