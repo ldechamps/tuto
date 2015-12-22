@@ -2,7 +2,7 @@
   "name": "node-todo",
   "version": "0.0.1",
   "description": "Simple todo application.",
-  "main": "server.js",
+  "main": "app/server.js",
   "author": "Loïc",
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",

@@ -15,10 +15,10 @@ var session = require('express-session'); // session
 var configDB = require('./config/database');
 
 // load up the user model
-var User = require('./app/models/user');
+var User = require('./models/user');
 
 // surcharge des responses
-require('./app/responses/response');
+require('./responses/response');
 
 // param
 var port = process.env.PORT || 8080;
@@ -63,7 +63,7 @@ app.use(methodeOverride('X-HTTP-Method-Override'));
 
 
 // load routes
-require('./app/routes/')(app, passport, express, User);
+require('./routes/')(app, passport, express, User);
 
 // listen (start app with node server.js)
 if (module.parent === null) {
