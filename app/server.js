@@ -43,7 +43,7 @@ app.use(bodyParser.json());// parse application/json
 
 // app.use(bodyParser()); // get information from html forms
 
-app.set('view engine', 'ejs'); // set up ejs for templating
+app.set('view engine', 'ejs'); // set up ejs for templating, look if we can change path
 app.set('superSecret', secret); // secret variable
 
 // require for passport
