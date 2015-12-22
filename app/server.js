@@ -33,7 +33,7 @@ if(process.argv[2]=="-l"){
 require('./config/passport')(passport, User); // pass passport configuration
 
 // set up express app
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '../public'));
 app.use(morgan('dev'));// log every request to the console
 app.use(cookieParser()); // read cookies (for auth)
 app.use(bodyParser.urlencoded({'extended': 'true'}));// parse application/x-www-form-urlencoded
